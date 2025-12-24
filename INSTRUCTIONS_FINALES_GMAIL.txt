@@ -1,0 +1,45 @@
+===========================================
+INSTRUCTIONS FINALES - CONFIGURATION GMAIL
+===========================================
+
+✅ La configuration Gmail a été ajoutée dans votre fichier .env
+✅ L'adresse email configurée : contact.bjacademie@gmail.com
+
+⚠️  DERNIÈRE ÉTAPE REQUISE :
+----------------------------
+
+1. Créer un mot de passe d'application Gmail :
+   → Allez sur : https://myaccount.google.com/
+   → Sécurité > Validation en deux étapes (activez si nécessaire)
+   → Mots de passe des applications > Générer
+   → Nom : "BJ Académie Laravel"
+   → COPIEZ le mot de passe de 16 caractères
+
+2. Configurer le mot de passe dans .env :
+   → Ouvrez le fichier .env
+   → Trouvez la ligne : MAIL_PASSWORD=null
+   → Remplacez "null" par le mot de passe d'application copié
+   → Exemple : MAIL_PASSWORD=abcd efgh ijkl mnop
+
+3. Vider le cache :
+   → Exécutez : php artisan config:clear
+
+4. Tester :
+   → Allez sur http://localhost:8000
+   → Remplissez le formulaire de contact
+   → Cliquez sur "ENVOYER LE MESSAGE"
+   → Vous recevrez l'email à : contact.bjacademie@gmail.com
+
+===========================================
+OU UTILISEZ LE SCRIPT AUTOMATIQUE :
+===========================================
+
+Exécutez simplement :
+php configure_gmail_password.php
+
+Le script vous guidera étape par étape !
+
+
+
+
+

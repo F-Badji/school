@@ -1,0 +1,2622 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Academie — Plateforme d'apprentissage en ligne</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-green: #065b32;
+            --brand-green-hover: #077a43;
+            --brand-green-light: #087a45;
+            --brand-green-700: #054b29;
+            --brand-green-800: #043a20;
+            --brand-green-900: #032916;
+            --brand-green-50: #ecfdf5;
+        }
+        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+        
+        /* Subtle green-to-white gradient background */
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Minimal, professional animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Minimal animated elements */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp .6s ease;
+        }
+        
+        /* Utility styles for a more professional, consistent UI */
+        .container { max-width: 80rem; margin-inline: auto; padding-inline: 1.5rem }
+        
+        .btn-primary { 
+            background: var(--brand-green);
+            color: #fff; 
+            border-radius: .75rem; 
+            padding: .75rem 1.25rem; 
+            font-weight: 600; 
+            transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+        .btn-primary:hover { 
+            background: var(--brand-green-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(6,91,50,.25);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(6,91,50,.2);
+        }
+        
+        .btn-outline-brand { 
+            border: 2px solid var(--brand-green); 
+            color: var(--brand-green); 
+            border-radius: .75rem; 
+            padding: .7rem 1.15rem; 
+            font-weight: 600; 
+            background: transparent;
+            transition: background .2s ease, color .2s ease, transform .2s ease;
+        }
+        .btn-outline-brand:hover { 
+            background: var(--brand-green); 
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        
+        .nav-link { 
+            color: #374151; 
+            font-weight: 600; 
+            transition: color .2s ease;
+            position: relative;
+            padding: 0.25rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover { 
+            color: var(--brand-green);
+            border-bottom-color: var(--brand-green);
+        }
+        
+        .brand-card { 
+            background: #ffffff; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 1rem; 
+            box-shadow: 0 4px 12px rgba(0,0,0,.05);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .brand-card:hover { 
+            box-shadow: 0 10px 24px rgba(0,0,0,.08);
+            transform: translateY(-2px);
+        }
+        
+        /* Image zoom animation on hover */
+        .brand-card .aspect-video {
+            overflow: hidden;
+        }
+        
+        .brand-card img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1);
+        }
+        
+        .brand-card:hover img {
+            transform: scale(1.2);
+        }
+        
+        .brand-chip { 
+            background: rgba(255,255,255,.15); 
+            color: #fff; 
+            border-radius: .75rem; 
+            padding: .5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .soft-section { padding-block: 4rem }
+        
+        .hero-eyebrow { 
+            display: inline-block; 
+            background: rgba(255,255,255,.15); 
+            color: #fff; 
+            padding: .35rem .7rem; 
+            border-radius: 999px; 
+            font-weight: 700; 
+            font-size: .75rem; 
+            letter-spacing: .04em;
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-link { 
+            color: #6b7280; 
+            transition: color .2s ease;
+        }
+        .footer-link:hover { 
+            color: var(--brand-green);
+        }
+        
+        /* Modal styling - Ultra Professional & Simple */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-container {
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            background: #f5f5f5;
+            border-bottom: 1px solid #cccccc;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            color: #333333;
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #666666;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: normal;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #000000;
+        }
+        
+        .modal-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+            background: #ffffff;
+        }
+        
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #cccccc;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+        
+        .modal-content h3 {
+            color: #000000;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content h3:first-child {
+            margin-top: 0;
+        }
+        
+        .modal-content p {
+            color: #333333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 13px;
+            text-align: left;
+        }
+        
+        .modal-content p strong {
+            color: #000000;
+            font-weight: 600;
+        }
+        
+        .modal-content ul {
+            color: #333333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .modal-content ul li {
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        
+        .modal-content .info-box {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            margin: 15px 0;
+        }
+        
+        .modal-content .info-box p {
+            margin-bottom: 0;
+            color: #333333;
+        }
+        
+        .modal-footer {
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 25px;
+            background: #f9f9f9;
+            text-align: right;
+        }
+        
+        .modal-footer-date {
+            color: #666666;
+            font-size: 11px;
+        }
+        
+        /* Header styling */
+        header {
+            background: rgba(255,255,255,.95) !important;
+            backdrop-filter: blur(30px) saturate(200%);
+            border-bottom: 1px solid rgba(6,91,50,.15);
+            box-shadow: 0 4px 30px rgba(6,91,50,.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        header.scrolled {
+            background: rgba(255,255,255,.98) !important;
+            box-shadow: 0 8px 40px rgba(6,91,50,.2);
+        }
+        
+        /* Text colors - dark on light background */
+        h1, h2, h3, h4, h5, h6 {
+            color: #065b32;
+            font-weight: 700;
+        }
+        
+        p, span, label {
+            color: #1f2937;
+        }
+        
+        /* Input styling - light */
+        input, textarea, select {
+            background: #ffffff !important;
+            border: 1px solid #e5e7eb !important;
+            color: #111827 !important;
+        }
+        input::placeholder {
+            color: #9ca3af !important;
+        }
+        input:focus {
+            border-color: var(--brand-green) !important;
+            box-shadow: 0 0 0 3px rgba(6,91,50,.15) !important;
+        }
+        
+        /* File input styling - texte en gris clair */
+        input[type="file"] {
+            color: #9ca3af !important;
+        }
+        
+        input[type="file"]::file-selector-button {
+            color: #374151;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin-right: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        input[type="file"]::file-selector-button:hover {
+            background: #e5e7eb;
+        }
+        
+        /* Désactiver la génération automatique de mot de passe */
+        input[type="password"] {
+            -webkit-autofill: off;
+        }
+        
+        input[type="password"]::-webkit-credentials-auto-fill-button {
+            visibility: hidden;
+            display: none !important;
+            pointer-events: none;
+            height: 0;
+            width: 0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Animation de rebond pour les titres du footer */
+        @keyframes bounceHighlight {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            10% {
+                transform: translateY(-20px) scale(1.1);
+            }
+            20% {
+                transform: translateY(-10px) scale(1.05);
+            }
+            30% {
+                transform: translateY(-15px) scale(1.08);
+            }
+            40% {
+                transform: translateY(-5px) scale(1.02);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.05);
+            }
+            60% {
+                transform: translateY(-3px) scale(1.02);
+            }
+            70% {
+                transform: translateY(-6px) scale(1.03);
+            }
+            80% {
+                transform: translateY(-2px) scale(1.01);
+            }
+            90% {
+                transform: translateY(-3px) scale(1.01);
+            }
+        }
+        
+        .bounce-highlight {
+            animation: bounceHighlight 1.5s ease-out;
+        }
+        
+        /* Style pour le bouton de connexion désactivé */
+        #login-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed !important;
+            background: #9ca3af;
+            color: #ffffff;
+        }
+        
+        #login-submit-btn:disabled:hover {
+            background: #9ca3af;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+    <script>
+        // Fonction globale pour ajuster le fond gris - définie avant le chargement de la page
+        function adjustGrayBackground() {
+            console.log('[DEBUG] adjustGrayBackground appelé');
+            const imageContainer = document.getElementById('imageContainer');
+            const grayBackground = document.getElementById('grayBackground');
+            const section = document.getElementById('accueil');
+            
+            console.log('[DEBUG] Éléments pour adjustGrayBackground:', {
+                imageContainer: !!imageContainer,
+                grayBackground: !!grayBackground,
+                section: !!section
+            });
+            
+            if (imageContainer && grayBackground && section) {
+                const imageHeight = imageContainer.offsetHeight;
+                const sectionTop = section.offsetTop;
+                const imageBottom = imageContainer.offsetTop + imageHeight;
+                const relativeBottom = imageBottom - sectionTop;
+                grayBackground.style.height = relativeBottom + 'px';
+                console.log('[DEBUG] Hauteur ajustée:', relativeBottom + 'px');
+            }
+        }
+        
+        // Également disponible sur window pour être sûr
+        window.adjustGrayBackground = adjustGrayBackground;
+        console.log('[DEBUG] adjustGrayBackground défini globalement');
+    </script>
+    </head>
+<body class="antialiased">
+    <!-- Header -->
+    <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background-color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 animate-on-scroll" style="animation: fadeIn 0.8s ease-out;">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #065b32, #087a45); box-shadow: 0 4px 15px rgba(6,91,50,.5);">
+                    <img src="https://png.pngtree.com/png-vector/20250220/ourmid/pngtree-white-graduation-cap-png-image_15512529.png" alt="BJ Académie" class="w-10 h-10 object-contain" />
+                </div>
+                <span class="text-gray-900 font-bold text-xl">BJ Academie</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-6 text-sm">
+                <a href="#accueil" class="nav-link">Accueil</a>
+                <a href="#cours" class="nav-link">Cours</a>
+                <a href="#apropos" class="nav-link" onclick="scrollToFooterSection('apropos'); return false;">À Propos</a>
+                <a href="#contact" class="nav-link" onclick="scrollToFooterSection('contact'); return false;">Contact</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <button onclick="document.getElementById('accueil').scrollIntoView({behavior: 'smooth'}); setTimeout(showLoginForm, 300);" class="btn-primary">Connexion</button>
+                <button onclick="document.getElementById('accueil').scrollIntoView({behavior: 'smooth'}); setTimeout(showRegisterForm, 300);" class="btn-outline-brand">S'inscrire</button>
+            </div>
+        </div>
+        </header>
+
+        <main style="position: relative; z-index: 1; padding-top: 80px;">
+        <!-- Hero Section -->
+        <div class="relative w-full">
+            <div class="absolute inset-0 bg-[#f5f5f5] -z-10 w-full" id="grayBackground" style="top: 0; bottom: auto;"></div>
+            <section id="accueil" class="max-w-7xl mx-auto px-6 pt-2 pb-16 lg:pt-4 lg:pb-24 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
+                <!-- Left Content -->
+                <div class="relative z-10 animate-on-scroll">
+                    <h1 class="text-5xl lg:text-6xl font-bold leading-tight mb-6 text-[#065b32] mt-6">
+                        Boostez vos compétences,<br>bâtissez votre avenir.
+                    </h1>
+                    <p class="text-lg text-gray-700 mb-8 leading-relaxed animate-on-scroll" style="animation-delay: 0.1s;">
+                        Rejoignez notre communauté d'apprenants et d'experts pour débloquer votre plein potentiel. Apprenez de manière flexible, à votre rythme et accédez à des carrières incroyables.
+                    </p>
+                    <div class="flex gap-4">
+                        <button id="btn-login" class="btn-primary" onclick="showLoginForm()">Connexion</button>
+                        <button id="btn-register" class="btn-outline-brand" onclick="showRegisterForm()">S'inscrire</button>
+                    </div>
+
+                    <!-- Login Form Overlay -->
+                    <div id="form-login-container" class="mt-12 bg-white rounded-xl p-8 border border-gray-200 shadow-lg animate-on-scroll @if($errors->has('login') || $errors->has('password')) @else hidden @endif" style="animation-delay: 0.3s;">
+                        <h2 class="text-2xl font-bold mb-2 text-[#065b32]">Connexion</h2>
+                        <p class="text-gray-600 mb-6">Connectez-vous à votre compte pour continuer.</p>
+                        
+                        <!-- Message d'erreur général -->
+                        @php
+                            // Le message "Email ou mot de passe incorrect" s'affiche uniquement si :
+                            // 1. Il y a des erreurs d'authentification
+                            // 2. Le login existe dans old() (ce qui signifie que le formulaire a été soumis avec au moins le login rempli)
+                            // Si on a des erreurs ET le login existe, c'est que les deux champs étaient remplis (sinon la validation aurait échoué pour "required")
+                            $hasLogin = !empty(old('login'));
+                            $hasLoginErrors = $errors->has('login') || $errors->has('password') || $errors->any();
+                            // Afficher uniquement si les deux champs étaient remplis (login présent dans old())
+                            $shouldShowError = $hasLoginErrors && $hasLogin;
+                        @endphp
+                        
+                        @if($shouldShowError)
+                            <div class="mb-4 p-4 bg-red-50 border-2 border-red-300 rounded-lg" id="login-error-message">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-red-600 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <div class="text-red-700 text-sm font-semibold">
+                                        @if($errors->has('login'))
+                                            @foreach($errors->get('login') as $error)
+                                                <p>{{ $error }}</p>
+                                            @endforeach
+                                        @elseif($errors->has('password'))
+                                            @foreach($errors->get('password') as $error)
+                                                <p>{{ $error }}</p>
+                                            @endforeach
+                                        @else
+                                            <p>Email ou mot de passe incorrect</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        <form method="POST" action="{{ route('login.post') }}" id="login-form" class="space-y-4" autocomplete="off" data-1p-ignore="true" data-lpignore="true" data-dashlane-ignore="true" data-bitwarden-watching="false" data-safari-ignore="true" novalidate>
+                            @csrf
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Email</label>
+                                <input type="text" id="login-email" name="login" value="{{ old('login') }}" placeholder="votre.email@exemple.com" required
+                                    autocomplete="off"
+                                    data-1p-ignore="true"
+                                    data-form-type="other"
+                                    data-lpignore="true"
+                                    data-dashlane-ignore="true"
+                                    data-bitwarden-watching="false"
+                                    data-bwignore="true"
+                                    data-safari-ignore="true"
+                                    data-kwignore="true"
+                                    spellcheck="false"
+                                    inputmode="email"
+                                    readonly
+                                    onfocus="this.removeAttribute('readonly'); checkLoginFields()"
+                                    oninput="checkLoginFields()"
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all {{ $errors->has('login') ? 'border-red-500 border-2' : '' }}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Mot de passe</label>
+                                <input type="password" id="login-password" name="password" placeholder="Votre mot de passe" required
+                                    autocomplete="off"
+                                    data-1p-ignore="true"
+                                    data-form-type="other"
+                                    data-lpignore="true"
+                                    data-dashlane-ignore="true"
+                                    data-bitwarden-watching="false"
+                                    data-bwignore="true"
+                                    data-kwignore="true"
+                                    data-safari-ignore="true"
+                                    spellcheck="false"
+                                    readonly
+                                    onfocus="this.removeAttribute('readonly'); checkLoginFields()"
+                                    oninput="checkLoginFields()"
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all {{ $errors->has('login') ? 'border-red-500 border-2' : '' }}">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="remember" name="remember" class="w-4 h-4 rounded border-gray-300 bg-white focus:ring-2" style="accent-color: #065b32;">
+                                <label for="remember" class="text-sm text-gray-600">Se souvenir de moi</label>
+                            </div>
+                            <button type="submit" id="login-submit-btn" class="w-full btn-primary" disabled>
+                                Se connecter
+                            </button>
+                            <p class="text-center text-sm text-gray-600">
+                                Pas encore de compte ? <button type="button" onclick="showRegisterForm()" class="text-[#065b32] font-semibold hover:underline">S'inscrire</button>
+                            </p>
+                        </form>
+                    </div>
+
+                    <!-- Register Form Overlay -->
+                    <div id="form-register-container" class="mt-12 bg-white rounded-xl p-8 border border-gray-200 shadow-lg animate-on-scroll hidden" style="animation-delay: 0.3s;">
+                        <h2 class="text-2xl font-bold mb-2 text-[#065b32]">Inscription</h2>
+                        <p class="text-gray-600 mb-6">Créez votre compte pour commencer votre apprentissage.</p>
+                        <form method="POST" action="{{ route('register.post') }}" enctype="multipart/form-data" id="register-form" class="space-y-4">
+                            @csrf
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Nom</label>
+                                <input type="text" name="nom" placeholder="Badji" required
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Prénom</label>
+                                <input type="text" name="prenom" placeholder="Mouhamed" required
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Date de Naissance</label>
+                                <input type="date" name="date_naissance" required
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Adresse email</label>
+                                <input type="email" name="email" placeholder="votre.email@exemple.com" required
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Téléphone</label>
+                                <input type="text" name="phone" placeholder="+221 77 123 45 67"
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Ville</label>
+                                <input type="text" name="location" placeholder="Ex: Dakar"
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Nationalité</label>
+                                <select name="nationalite" class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                                    <option value="">-- Sélectionner une nationalité --</option>
+                                    <option value="AF">🇦🇫 Afghanistan</option>
+                                    <option value="ZA">🇿🇦 Afrique du Sud</option>
+                                    <option value="AL">🇦🇱 Albanie</option>
+                                    <option value="DZ">🇩🇿 Algérie</option>
+                                    <option value="DE">🇩🇪 Allemagne</option>
+                                    <option value="AD">🇦🇩 Andorre</option>
+                                    <option value="AO">🇦🇴 Angola</option>
+                                    <option value="AG">🇦🇬 Antigua-et-Barbuda</option>
+                                    <option value="SA">🇸🇦 Arabie Saoudite</option>
+                                    <option value="AR">🇦🇷 Argentine</option>
+                                    <option value="AM">🇦🇲 Arménie</option>
+                                    <option value="AU">🇦🇺 Australie</option>
+                                    <option value="AT">🇦🇹 Autriche</option>
+                                    <option value="AZ">🇦🇿 Azerbaïdjan</option>
+                                    <option value="BS">🇧🇸 Bahamas</option>
+                                    <option value="BH">🇧🇭 Bahreïn</option>
+                                    <option value="BD">🇧🇩 Bangladesh</option>
+                                    <option value="BB">🇧🇧 Barbade</option>
+                                    <option value="BE">🇧🇪 Belgique</option>
+                                    <option value="BZ">🇧🇿 Belize</option>
+                                    <option value="BJ">🇧🇯 Bénin</option>
+                                    <option value="BT">🇧🇹 Bhoutan</option>
+                                    <option value="BY">🇧🇾 Biélorussie</option>
+                                    <option value="MM">🇲🇲 Birmanie</option>
+                                    <option value="BO">🇧🇴 Bolivie</option>
+                                    <option value="BA">🇧🇦 Bosnie-Herzégovine</option>
+                                    <option value="BW">🇧🇼 Botswana</option>
+                                    <option value="BR">🇧🇷 Brésil</option>
+                                    <option value="BN">🇧🇳 Brunei</option>
+                                    <option value="BG">🇧🇬 Bulgarie</option>
+                                    <option value="BF">🇧🇫 Burkina Faso</option>
+                                    <option value="BI">🇧🇮 Burundi</option>
+                                    <option value="KH">🇰🇭 Cambodge</option>
+                                    <option value="CM">🇨🇲 Cameroun</option>
+                                    <option value="CA">🇨🇦 Canada</option>
+                                    <option value="CV">🇨🇻 Cap-Vert</option>
+                                    <option value="CL">🇨🇱 Chili</option>
+                                    <option value="CN">🇨🇳 Chine</option>
+                                    <option value="CY">🇨🇾 Chypre</option>
+                                    <option value="CO">🇨🇴 Colombie</option>
+                                    <option value="KM">🇰🇲 Comores</option>
+                                    <option value="CG">🇨🇬 Congo</option>
+                                    <option value="CD">🇨🇩 République démocratique du Congo</option>
+                                    <option value="KR">🇰🇷 Corée du Sud</option>
+                                    <option value="KP">🇰🇵 Corée du Nord</option>
+                                    <option value="CR">🇨🇷 Costa Rica</option>
+                                    <option value="CI">🇨🇮 Côte d'Ivoire</option>
+                                    <option value="HR">🇭🇷 Croatie</option>
+                                    <option value="CU">🇨🇺 Cuba</option>
+                                    <option value="DK">🇩🇰 Danemark</option>
+                                    <option value="DJ">🇩🇯 Djibouti</option>
+                                    <option value="DM">🇩🇲 Dominique</option>
+                                    <option value="EG">🇪🇬 Égypte</option>
+                                    <option value="AE">🇦🇪 Émirats arabes unis</option>
+                                    <option value="EC">🇪🇨 Équateur</option>
+                                    <option value="ER">🇪🇷 Érythrée</option>
+                                    <option value="ES">🇪🇸 Espagne</option>
+                                    <option value="EE">🇪🇪 Estonie</option>
+                                    <option value="SZ">🇸🇿 Eswatini</option>
+                                    <option value="US">🇺🇸 États-Unis</option>
+                                    <option value="ET">🇪🇹 Éthiopie</option>
+                                    <option value="FJ">🇫🇯 Fidji</option>
+                                    <option value="FI">🇫🇮 Finlande</option>
+                                    <option value="FR">🇫🇷 France</option>
+                                    <option value="GA">🇬🇦 Gabon</option>
+                                    <option value="GM">🇬🇲 Gambie</option>
+                                    <option value="GE">🇬🇪 Géorgie</option>
+                                    <option value="GH">🇬🇭 Ghana</option>
+                                    <option value="GR">🇬🇷 Grèce</option>
+                                    <option value="GD">🇬🇩 Grenade</option>
+                                    <option value="GT">🇬🇹 Guatemala</option>
+                                    <option value="GN">🇬🇳 Guinée</option>
+                                    <option value="GW">🇬🇼 Guinée-Bissau</option>
+                                    <option value="GQ">🇬🇶 Guinée équatoriale</option>
+                                    <option value="GY">🇬🇾 Guyana</option>
+                                    <option value="HT">🇭🇹 Haïti</option>
+                                    <option value="HN">🇭🇳 Honduras</option>
+                                    <option value="HU">🇭🇺 Hongrie</option>
+                                    <option value="IN">🇮🇳 Inde</option>
+                                    <option value="ID">🇮🇩 Indonésie</option>
+                                    <option value="IQ">🇮🇶 Irak</option>
+                                    <option value="IR">🇮🇷 Iran</option>
+                                    <option value="IE">🇮🇪 Irlande</option>
+                                    <option value="IS">🇮🇸 Islande</option>
+                                    <option value="IL">🇮🇱 Israël</option>
+                                    <option value="IT">🇮🇹 Italie</option>
+                                    <option value="JM">🇯🇲 Jamaïque</option>
+                                    <option value="JP">🇯🇵 Japon</option>
+                                    <option value="JO">🇯🇴 Jordanie</option>
+                                    <option value="KZ">🇰🇿 Kazakhstan</option>
+                                    <option value="KE">🇰🇪 Kenya</option>
+                                    <option value="KG">🇰🇬 Kirghizistan</option>
+                                    <option value="KI">🇰🇮 Kiribati</option>
+                                    <option value="KW">🇰🇼 Koweït</option>
+                                    <option value="LA">🇱🇦 Laos</option>
+                                    <option value="LS">🇱🇸 Lesotho</option>
+                                    <option value="LV">🇱🇻 Lettonie</option>
+                                    <option value="LB">🇱🇧 Liban</option>
+                                    <option value="LR">🇱🇷 Liberia</option>
+                                    <option value="LY">🇱🇾 Libye</option>
+                                    <option value="LI">🇱🇮 Liechtenstein</option>
+                                    <option value="LT">🇱🇹 Lituanie</option>
+                                    <option value="LU">🇱🇺 Luxembourg</option>
+                                    <option value="MG">🇲🇬 Madagascar</option>
+                                    <option value="MW">🇲🇼 Malawi</option>
+                                    <option value="MY">🇲🇾 Malaisie</option>
+                                    <option value="MV">🇲🇻 Maldives</option>
+                                    <option value="ML">🇲🇱 Mali</option>
+                                    <option value="MT">🇲🇹 Malte</option>
+                                    <option value="MA">🇲🇦 Maroc</option>
+                                    <option value="MU">🇲🇺 Maurice</option>
+                                    <option value="MR">🇲🇷 Mauritanie</option>
+                                    <option value="MX">🇲🇽 Mexique</option>
+                                    <option value="MD">🇲🇩 Moldavie</option>
+                                    <option value="MC">🇲🇨 Monaco</option>
+                                    <option value="MN">🇲🇳 Mongolie</option>
+                                    <option value="ME">🇲🇪 Monténégro</option>
+                                    <option value="MZ">🇲🇿 Mozambique</option>
+                                    <option value="NA">🇳🇦 Namibie</option>
+                                    <option value="NR">🇳🇷 Nauru</option>
+                                    <option value="NP">🇳🇵 Népal</option>
+                                    <option value="NI">🇳🇮 Nicaragua</option>
+                                    <option value="NE">🇳🇪 Niger</option>
+                                    <option value="NG">🇳🇬 Nigeria</option>
+                                    <option value="NO">🇳🇴 Norvège</option>
+                                    <option value="NZ">🇳🇿 Nouvelle-Zélande</option>
+                                    <option value="OM">🇴🇲 Oman</option>
+                                    <option value="UG">🇺🇬 Ouganda</option>
+                                    <option value="UZ">🇺🇿 Ouzbékistan</option>
+                                    <option value="PK">🇵🇰 Pakistan</option>
+                                    <option value="PW">🇵🇼 Palaos</option>
+                                    <option value="PA">🇵🇦 Panama</option>
+                                    <option value="PG">🇵🇬 Papouasie-Nouvelle-Guinée</option>
+                                    <option value="PY">🇵🇾 Paraguay</option>
+                                    <option value="NL">🇳🇱 Pays-Bas</option>
+                                    <option value="PE">🇵🇪 Pérou</option>
+                                    <option value="PH">🇵🇭 Philippines</option>
+                                    <option value="PL">🇵🇱 Pologne</option>
+                                    <option value="PT">🇵🇹 Portugal</option>
+                                    <option value="QA">🇶🇦 Qatar</option>
+                                    <option value="RO">🇷🇴 Roumanie</option>
+                                    <option value="GB">🇬🇧 Royaume-Uni</option>
+                                    <option value="RU">🇷🇺 Russie</option>
+                                    <option value="RW">🇷🇼 Rwanda</option>
+                                    <option value="KN">🇰🇳 Saint-Kitts-et-Nevis</option>
+                                    <option value="LC">🇱🇨 Sainte-Lucie</option>
+                                    <option value="VC">🇻🇨 Saint-Vincent-et-les-Grenadines</option>
+                                    <option value="SM">🇸🇲 Saint-Marin</option>
+                                    <option value="ST">🇸🇹 Sao Tomé-et-Principe</option>
+                                    <option value="SN">🇸🇳 Sénégal</option>
+                                    <option value="RS">🇷🇸 Serbie</option>
+                                    <option value="SC">🇸🇨 Seychelles</option>
+                                    <option value="SL">🇸🇱 Sierra Leone</option>
+                                    <option value="SG">🇸🇬 Singapour</option>
+                                    <option value="SK">🇸🇰 Slovaquie</option>
+                                    <option value="SI">🇸🇮 Slovénie</option>
+                                    <option value="SO">🇸🇴 Somalie</option>
+                                    <option value="SD">🇸🇩 Soudan</option>
+                                    <option value="SS">🇸🇸 Soudan du Sud</option>
+                                    <option value="LK">🇱🇰 Sri Lanka</option>
+                                    <option value="SE">🇸🇪 Suède</option>
+                                    <option value="CH">🇨🇭 Suisse</option>
+                                    <option value="SR">🇸🇷 Suriname</option>
+                                    <option value="SY">🇸🇾 Syrie</option>
+                                    <option value="TJ">🇹🇯 Tadjikistan</option>
+                                    <option value="TW">🇹🇼 Taïwan</option>
+                                    <option value="TZ">🇹🇿 Tanzanie</option>
+                                    <option value="TD">🇹🇩 Tchad</option>
+                                    <option value="CZ">🇨🇿 République tchèque</option>
+                                    <option value="TH">🇹🇭 Thaïlande</option>
+                                    <option value="TL">🇹🇱 Timor oriental</option>
+                                    <option value="TG">🇹🇬 Togo</option>
+                                    <option value="TO">🇹🇴 Tonga</option>
+                                    <option value="TT">🇹🇹 Trinité-et-Tobago</option>
+                                    <option value="TN">🇹🇳 Tunisie</option>
+                                    <option value="TM">🇹🇲 Turkménistan</option>
+                                    <option value="TR">🇹🇷 Turquie</option>
+                                    <option value="TV">🇹🇻 Tuvalu</option>
+                                    <option value="UA">🇺🇦 Ukraine</option>
+                                    <option value="UY">🇺🇾 Uruguay</option>
+                                    <option value="VU">🇻🇺 Vanuatu</option>
+                                    <option value="VA">🇻🇦 Vatican</option>
+                                    <option value="VE">🇻🇪 Venezuela</option>
+                                    <option value="VN">🇻🇳 Viêt Nam</option>
+                                    <option value="YE">🇾🇪 Yémen</option>
+                                    <option value="ZM">🇿🇲 Zambie</option>
+                                    <option value="ZW">🇿🇼 Zimbabwe</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Photo</label>
+                                <input type="file" name="photo" accept="image/*" required
+                                    class="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all border border-gray-300 text-gray-400">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Mot de passe</label>
+                                <div class="relative">
+                                    <input type="password" id="register-password" name="password" placeholder="Minimum 8 caractères" required minlength="8"
+                                        autocomplete="off"
+                                        data-1p-ignore="true"
+                                        data-form-type="other"
+                                        data-lpignore="true"
+                                        data-dashlane-ignore="true"
+                                        data-bitwarden-watching="false"
+                                        spellcheck="false"
+                                        class="w-full px-4 py-3 pr-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                                    <button type="button" onclick="togglePassword('register-password', 'register-password-toggle')" 
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none">
+                                        <svg id="register-password-toggle" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Confirmer le mot de passe</label>
+                                <div class="relative">
+                                    <input type="password" id="register-password-confirm" name="password_confirmation" placeholder="Répétez votre mot de passe" required
+                                        autocomplete="off"
+                                        data-1p-ignore="true"
+                                        data-form-type="other"
+                                        data-lpignore="true"
+                                        data-dashlane-ignore="true"
+                                        data-bitwarden-watching="false"
+                                        spellcheck="false"
+                                        class="w-full px-4 py-3 pr-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#065b32]/30 transition-all">
+                                    <button type="button" onclick="togglePassword('register-password-confirm', 'register-password-confirm-toggle')" 
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none">
+                                        <svg id="register-password-confirm-toggle" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <input type="checkbox" id="terms" name="terms" value="1" required
+                                    class="w-4 h-4 mt-0.5 rounded border-gray-300 bg-white focus:ring-2" style="accent-color: #065b32;">
+                                <label for="terms" class="text-sm text-gray-600 leading-relaxed">
+                                    J'accepte les <a href="#" onclick="openTermsModal(); return false;" class="text-[#065b32] font-semibold hover:underline">conditions d'utilisation</a> et la <a href="#" onclick="openPrivacyModal(); return false;" class="text-[#065b32] font-semibold hover:underline">politique de confidentialité</a>
+                                </label>
+                            </div>
+                            @error('terms')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                            <button type="submit" id="register-submit-btn" class="w-full btn-primary">
+                                Créer mon compte
+                            </button>
+                            <p class="text-center text-sm text-gray-600">
+                                Déjà un compte ? <button type="button" onclick="showLoginForm()" class="text-[#065b32] font-semibold hover:underline">Se connecter</button>
+                            </p>
+                        </form>
+                        </div>
+                        </div>
+
+                <!-- Right Illustration -->
+                <div class="relative hidden lg:block animate-on-scroll" id="imageContainer" style="animation: slideInRight 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation-delay: 0.4s; align-self: start;">
+                    <img src="{{ asset('assets/images/graduation.jpg') }}" 
+                            alt="" 
+                            class="w-3/4 h-auto rounded-lg mx-auto"
+                            onload="adjustGrayBackground()">
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Partners Section -->
+        <section class="max-w-7xl mx-auto px-6 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-[#065b32] to-[#087a45] bg-clip-text text-transparent animate-on-scroll">Nos partenaires</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s;">
+                    Nous collaborons avec des institutions de renom pour offrir des formations de qualité et des opportunités d'excellence.
+                </p>
+            </div>
+            <div class="relative px-12">
+                <!-- Partners Container -->
+                <div id="partnersContainer" class="overflow-hidden">
+                    <div class="flex gap-8 items-center" id="partnersTrack" style="animation: scrollPartners 30s linear infinite;">
+                        <!-- Partner 1: SONATEL -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://orange.africa-newsroom.com/files/large/3a46a62fb05c98e" alt="SONATEL" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 2: ISI -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://www.groupeisi.com/wp-content/uploads/2018/11/LOGO-NEW-GROUP.jpg" alt="ISI" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 3: SONES -->
+                        <div class="flex-shrink-0 w-48 h-48 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="{{ asset('assets/images/Sones.jpeg') }}" alt="SONES" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 4: UCAD -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjVqOWOBeEJx-ztP2ZoVLtdTP6KBD149lf4g&s" alt="UCAD" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 5: SOCOCIM -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://www.sococim.com/sites/default/files/styles/logo_150x108/public/site_logo/credentialing_providers/Original%20JPG-SOCOCIM_Logo.jpg?itok=DYu0Qi7P" alt="SOCOCIM" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 7: ENSI -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://yt3.googleusercontent.com/s_QZ8Zhj3liKuEsmyMX7pvq4a7w1jRFJC3P_e7Oc4uStCC05JBuj5X1Q6aJz6_eb3HW9EwnO=s900-c-k-c0x00ffffff-no-rj" alt="ENSI" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 8: CICES -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D1BAQFpi0wvCBAw8A/company-background_10000/company-background_10000/0/1619443956191/centre_international_du_commerce_extrieur_du_senegal_cices_cover?e=2147483647&v=beta&t=AhEXCpp6Ovh0_NtrHha-nlofIb_uqqmvBYmWzc5ECtE" alt="CICES" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 9: ADIE -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Logo_Adie.png" alt="ADIE" class="w-full h-full object-contain" onerror="this.style.display='none'">
+                        </div>
+
+                        <!-- Partner 10: SDE -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://www.pressafrik.com/photo/art/grande/41273716-34771026.jpg?v=1577786351" alt="SDE" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 11: AIBD -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://media.licdn.com/dms/image/v2/D5612AQHRQo8433SEyg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1677685285317?e=2147483647&v=beta&t=vyJcZkRzJdIOkCAmofU9dTvfPt2tOHiTtbZOw5rtmSc" alt="AIBD" class="w-full h-full object-contain">
+                        </div>
+                        
+                        <!-- Duplicate logos for infinite loop -->
+                        <!-- Partner 1: SONATEL -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://orange.africa-newsroom.com/files/large/3a46a62fb05c98e" alt="SONATEL" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 2: ISI -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://www.groupeisi.com/wp-content/uploads/2018/11/LOGO-NEW-GROUP.jpg" alt="ISI" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 3: SONES -->
+                        <div class="flex-shrink-0 w-48 h-48 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="{{ asset('assets/images/Sones.jpeg') }}" alt="SONES" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 4: UCAD -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjVqOWOBeEJx-ztP2ZoVLtdTP6KBD149lf4g&s" alt="UCAD" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 5: SOCOCIM -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://www.sococim.com/sites/default/files/styles/logo_150x108/public/site_logo/credentialing_providers/Original%20JPG-SOCOCIM_Logo.jpg?itok=DYu0Qi7P" alt="SOCOCIM" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 7: ENSI -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://yt3.googleusercontent.com/s_QZ8Zhj3liKuEsmyMX7pvq4a7w1jRFJC3P_e7Oc4uStCC05JBuj5X1Q6aJz6_eb3HW9EwnO=s900-c-k-c0x00ffffff-no-rj" alt="ENSI" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 8: CICES -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://media.licdn.com/dms/image/v2/C4D1BAQFpi0wvCBAw8A/company-background_10000/company-background_10000/0/1619443956191/centre_international_du_commerce_extrieur_du_senegal_cices_cover?e=2147483647&v=beta&t=AhEXCpp6Ovh0_NtrHha-nlofIb_uqqmvBYmWzc5ECtE" alt="CICES" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 9: ADIE -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Logo_Adie.png" alt="ADIE" class="w-full h-full object-contain" onerror="this.style.display='none'">
+                        </div>
+
+                        <!-- Partner 10: SDE -->
+                        <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://www.pressafrik.com/photo/art/grande/41273716-34771026.jpg?v=1577786351" alt="SDE" class="w-full h-full object-contain">
+                        </div>
+
+                        <!-- Partner 11: AIBD -->
+                        <div class="flex-shrink-0 w-40 h-40 flex items-center justify-center hover:scale-110 transition-transform">
+                            <img src="https://media.licdn.com/dms/image/v2/D5612AQHRQo8433SEyg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1677685285317?e=2147483647&v=beta&t=vyJcZkRzJdIOkCAmofU9dTvfPt2tOHiTtbZOw5rtmSc" alt="AIBD" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+
+        <style>
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+
+            @keyframes scrollPartners {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            #partnersTrack {
+                will-change: transform;
+            }
+
+            /* Styles pour les contenus FAQ */
+            .faq-content {
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .faq-content.hidden {
+                max-height: 0 !important;
+                opacity: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                margin: 0 !important;
+            }
+
+            .faq-content:not(.hidden) {
+                max-height: 300px;
+                opacity: 1;
+                padding-top: 0;
+                padding-bottom: 1.5rem;
+            }
+        </style>
+
+        <script>
+            // Animation automatique désactivée - gérée par CSS
+
+            function scrollTestimonials(direction) {
+                const container = document.getElementById('testimonialsContainer');
+                const scrollAmount = 400;
+                
+                if (direction === 'left') {
+                    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                } else {
+                    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                }
+            }
+
+            function toggleFAQ(index, event) {
+                // Empêcher le comportement par défaut et la propagation
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                // Empêcher l'exécution multiple simultanée
+                if (window.faqToggling) return;
+                window.faqToggling = true;
+                
+                // Récupérer les éléments du menu cliqué AVANT toute modification
+                const clickedContent = document.getElementById(`faq-content-${index}`);
+                const clickedIcon = document.getElementById(`faq-icon-${index}`);
+                
+                if (!clickedContent || !clickedIcon) {
+                    window.faqToggling = false;
+                    return;
+                }
+                
+                // Vérifier si le menu cliqué est actuellement ouvert AVANT de fermer quoi que ce soit
+                const wasOpen = !clickedContent.classList.contains('hidden');
+                
+                // Fermer TOUS les menus déroulants d'abord (sans exception)
+                for (let i = 1; i <= 8; i++) {
+                    const content = document.getElementById(`faq-content-${i}`);
+                    const icon = document.getElementById(`faq-icon-${i}`);
+                    if (content && icon) {
+                        content.classList.add('hidden');
+                        // Réinitialiser les styles inline pour laisser le CSS gérer
+                        content.style.maxHeight = '';
+                        content.style.opacity = '';
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                }
+                
+                // Puis, si le menu cliqué était fermé au moment du clic, on l'ouvre maintenant
+                if (!wasOpen) {
+                    // Retirer la classe hidden et réinitialiser les styles
+                    clickedContent.classList.remove('hidden');
+                    clickedContent.style.maxHeight = '';
+                    clickedContent.style.opacity = '';
+                    clickedIcon.style.transform = 'rotate(180deg)';
+                }
+                
+                window.faqToggling = false;
+            }
+
+            // Appeler la fonction au chargement et au redimensionnement (la fonction est déjà définie dans le head)
+            window.addEventListener('load', adjustGrayBackground);
+            window.addEventListener('resize', adjustGrayBackground);
+        </script>
+
+        <!-- Why Choose Us Section -->
+        <div style="background-color: #f5f5f5;">
+        <section class="max-w-7xl mx-auto px-6 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-[#065b32] to-[#087a45] bg-clip-text text-transparent animate-on-scroll">Pourquoi nous choisir ?</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s;">
+                    Notre plateforme est conçue pour votre réussite, avec des fonctionnalités qui rendent l'apprentissage engageant et efficace.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="brand-card p-8 animate-on-scroll">
+                    <div class="w-14 h-14 rounded-lg flex items-center justify-center mb-6 bg-[#ecfdf5]">
+                        <svg class="w-8 h-8 text-[#065b32]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Instructeurs Experts</h3>
+                    <p class="text-gray-600">
+                        Apprenez des meilleurs dans leur domaine avec des années d'expérience pratique et des connaissances approfondies.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="brand-card p-8 animate-on-scroll">
+                    <div class="w-14 h-14 rounded-lg flex items-center justify-center mb-6 bg-[#ecfdf5]">
+                        <svg class="w-8 h-8 text-[#065b32]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Contenu Diversifié</h3>
+                    <p class="text-gray-600">
+                        Accédez à une vaste bibliothèque de cours allant de la technologie aux arts, répondant à tous les niveaux de compétences.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="brand-card p-8 animate-on-scroll">
+                    <div class="w-14 h-14 rounded-lg flex items-center justify-center mb-6 bg-[#ecfdf5]">
+                        <svg class="w-8 h-8 text-[#065b32]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Apprentissage Flexible</h3>
+                    <p class="text-gray-600">
+                        Étudiez à votre propre rythme, avec des horaires flexibles qui s'adaptent à votre emploi du temps chargé.
+                    </p>
+                </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Course Categories Section -->
+        <section id="cours" class="max-w-7xl mx-auto px-6 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-[#065b32] to-[#087a45] bg-clip-text text-transparent animate-on-scroll">Découvrez nos catégories de cours</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s;">
+                    Parcourez une sélection de nos catégories les plus populaires et trouvez le chemin idéal pour votre développement de compétences.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Category 1: Sciences et Technologies -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=400&auto=format&fit=crop" alt="Sciences et Technologies" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/70 to-indigo-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Sciences et Technologies (ST)</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Économie, Gestion et Commerce -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?q=80&w=400&auto=format&fit=crop" alt="Économie, Gestion et Commerce" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-600/70 to-emerald-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Économie, Gestion et Commerce</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: Sciences humaines et sociales -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400&auto=format&fit=crop" alt="Sciences humaines et sociales" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-600/70 to-pink-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                            <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Sciences humaines et sociales</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4: Lettres, Langues et Communication -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=400&auto=format&fit=crop" alt="Lettres, Langues et Communication" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-600/70 to-orange-700/70"></div>
+                            </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Lettres, Langues et Communication</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 5: Santé et Sciences de la vie -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=400&auto=format&fit=crop" alt="Santé et Sciences de la vie" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-red-500/70 to-pink-600/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Santé et Sciences de la vie</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 6: Agriculture, Environnement et Développement durable -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=400&auto=format&fit=crop" alt="Agriculture, Environnement et Développement durable" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-700/70 to-teal-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                            <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Agriculture, Environnement et Développement durable</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 7: Art, Design et Culture -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?q=80&w=400&auto=format&fit=crop" alt="Art, Design et Culture" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-violet-600/70 to-purple-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Art, Design et Culture</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 8: Tourisme, Hôtellerie et Restauration -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=400&auto=format&fit=crop" alt="Tourisme, Hôtellerie et Restauration" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-cyan-600/70 to-blue-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                            <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Tourisme, Hôtellerie et Restauration</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 9: Droit, Sciences politiques et Administration -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop" alt="Droit, Sciences politiques et Administration" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-slate-700/70 to-gray-800/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Droit, Sciences politiques et Administration</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 10: Formations techniques et professionnelles -->
+                <div class="brand-card overflow-hidden animate-on-scroll relative">
+                    <div class="aspect-video relative">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=400&auto=format&fit=crop" alt="Formations techniques et professionnelles" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-br from-orange-600/70 to-red-700/70"></div>
+                    </div>
+                    <div class="absolute inset-0 p-6 flex items-end text-white">
+                        <div>
+                            <h3 class="font-bold mb-2 text-white" style="color:#ffffff !important;">Formations techniques et professionnelles</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <div style="background-color: #f5f5f5;">
+        <section class="max-w-7xl mx-auto px-6 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-[#065b32] to-[#087a45] bg-clip-text text-transparent animate-on-scroll">Ce que disent nos étudiants</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s;">
+                    Des milliers d'étudiants ont transformé leur vie grâce à nos cours. Lisez leurs histoires de réussite.
+                </p>
+            </div>
+            
+            <div class="relative px-12">
+                <!-- Left Arrow -->
+                <button onclick="scrollTestimonials('left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                
+                <!-- Testimonials Container -->
+                <div id="testimonialsContainer" class="overflow-x-auto scrollbar-hide" style="scroll-behavior: smooth;">
+                    <div class="flex gap-8 items-stretch" style="min-width: max-content;">
+                <!-- Testimonial 1 -->
+                        <div class="flex-shrink-0 w-80 brand-card p-8">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="{{ asset('assets/images/moustapha-sy.jpg') }}" alt="Moustapha Sy" class="w-16 h-16 rounded-full object-cover">
+                        <div>
+                                    <h4 class="font-bold text-gray-900">Moustapha Sy</h4>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                    </div>
+                    <p class="text-gray-700 italic">
+                        "Les cours sont incroyablement bien structurés et les instructeurs sont passionnés. Ma carrière a fait un bond en avant grâce à BJ Academie !"
+                    </p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                        <div class="flex-shrink-0 w-80 brand-card p-8">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="{{ asset('assets/images/safietou-ndoye.jpg') }}" alt="Safietou Ndoye" class="w-16 h-16 rounded-full object-cover">
+                        <div>
+                                    <h4 class="font-bold text-gray-900">Safietou Ndoye</h4>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </div>
+                    <p class="text-gray-700 italic">
+                        "J'ai adoré la flexibilité et la qualité du contenu. J'ai pu apprendre de nouvelles compétences tout en gérant mon travail à temps plein. Recommande fortement !"
+                    </p>
+                        </div>
+
+                        <!-- Testimonial 3 -->
+                        <div class="flex-shrink-0 w-80 brand-card p-8">
+                            <div class="flex items-center gap-4 mb-4">
+                                <img src="{{ asset('assets/images/micheal-obassi.jpg') }}" alt="Micheal Obassi" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Micheal Obassi</h4>
+                                </div>
+                            </div>
+                            <div class="flex gap-1 mb-4">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "Une expérience d'apprentissage exceptionnelle ! Les formateurs sont très compétents et le support est toujours disponible. Je recommande vivement cette académie."
+                            </p>
+                        </div>
+
+                        <!-- Testimonial 4 -->
+                        <div class="flex-shrink-0 w-80 brand-card p-8">
+                            <div class="flex items-center gap-4 mb-4">
+                                <img src="{{ asset('assets/images/aissatou-fall.jpg') }}" alt="Aissatou Fall" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Aissatou Fall</h4>
+                                </div>
+                            </div>
+                            <div class="flex gap-1 mb-4">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "Le meilleur investissement que j'ai fait pour ma carrière. Les cours sont pratiques et directement applicables. Merci BJ Académie !"
+                            </p>
+                        </div>
+
+                        <!-- Testimonial 5 -->
+                        <div class="flex-shrink-0 w-80 brand-card p-8">
+                            <div class="flex items-center gap-4 mb-4">
+                                <img src="{{ asset('assets/images/moussa-ndiaye.jpg') }}" alt="Moussa Ndiaye" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Moussa Ndiaye</h4>
+                                </div>
+                            </div>
+                            <div class="flex gap-1 mb-4">
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                            <p class="text-gray-700 italic">
+                                "Formation de qualité supérieure ! J'ai pu acquérir les compétences nécessaires pour progresser dans mon domaine. Excellent service client également."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Arrow -->
+                <button onclick="scrollTestimonials('right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-gray-50 transition-colors border border-gray-200">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="max-w-7xl mx-auto px-6 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-[#065b32] to-[#087a45] bg-clip-text text-transparent animate-on-scroll">Questions Fréquemment Posées</h2>
+                <p class="text-lg text-gray-700 max-w-2xl mx-auto animate-on-scroll" style="animation-delay: 0.1s;">
+                    Vous avez des questions ? Nous avons les réponses.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden">
+                    <button onclick="toggleFAQ(1, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Proposez-vous des réductions pour les étudiants?</span>
+                        <svg id="faq-icon-1" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    </button>
+                    <div id="faq-content-1" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Oui, nous offrons des réductions spéciales pour les étudiants. Contactez-nous pour plus d'informations sur nos tarifs préférentiels et nos programmes de bourses disponibles.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.1s;">
+                    <button onclick="toggleFAQ(2, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Faut-il des prérequis pour les cours?</span>
+                        <svg id="faq-icon-2" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    </button>
+                    <div id="faq-content-2" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Les prérequis varient selon les formations. Certains cours débutants ne nécessitent aucun prérequis, tandis que d'autres formations avancées peuvent exiger des connaissances de base. Consultez la description de chaque formation pour plus de détails.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.15s;">
+                    <button onclick="toggleFAQ(3, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Puis-je changer de cours après l'inscription?</span>
+                        <svg id="faq-icon-3" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    </button>
+                    <div id="faq-content-3" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Oui, vous pouvez changer de cours sous certaines conditions. Contactez notre équipe administrative dans les 14 premiers jours suivant votre inscription pour discuter de votre changement de formation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.2s;">
+                    <button onclick="toggleFAQ(4, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Offrez-vous un support technique?</span>
+                        <svg id="faq-icon-4" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    </button>
+                    <div id="faq-content-4" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Absolument ! Nous offrons un support technique complet pour tous nos apprenants. Notre équipe est disponible pour vous aider avec tout problème technique lié à la plateforme, aux cours ou aux outils pédagogiques.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.25s;">
+                    <button onclick="toggleFAQ(5, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Les certificats sont-ils reconnus?</span>
+                        <svg id="faq-icon-5" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    </button>
+                    <div id="faq-content-5" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Oui, nos certificats sont reconnus et valorisés sur le marché du travail. Ils sont délivrés après validation complète des modules requis et attestent de vos compétences acquises lors de la formation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.3s;">
+                    <button onclick="toggleFAQ(6, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Quels sujets sont couverts?</span>
+                        <svg id="faq-icon-6" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    </button>
+                    <div id="faq-content-6" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Nous couvrons une large gamme de sujets incluant le développement personnel, les compétences professionnelles, les technologies de l'information, le management, et bien d'autres domaines. Consultez notre catalogue complet de formations pour découvrir tous les sujets disponibles.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 7 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.35s;">
+                    <button onclick="toggleFAQ(7, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Comment fonctionne l'apprentissage en ligne?</span>
+                        <svg id="faq-icon-7" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="faq-content-7" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            L'apprentissage en ligne se fait via notre plateforme numérique accessible 24/7. Vous suivez les cours à votre rythme, accédez aux vidéos, supports PDF, quiz interactifs et bénéficiez d'un accompagnement personnalisé par nos formateurs qualifiés.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 8 -->
+                <div class="bg-white/90 backdrop-blur-xl rounded-xl border border-gray-200/50 shadow-lg hover:shadow-xl animate-on-scroll group transition-all duration-300 overflow-hidden" style="animation-delay: 0.4s;">
+                    <button onclick="toggleFAQ(8, event);" class="w-full p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-medium text-gray-900 group-hover:text-[#065b32] transition-colors text-left">Quels sont les moyens de paiement acceptés?</span>
+                        <svg id="faq-icon-8" class="w-5 h-5 text-gray-500 group-hover:text-[#065b32] transition-all duration-300 flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="faq-content-8" class="faq-content hidden">
+                        <p class="text-gray-700 leading-relaxed">
+                            Nous acceptons plusieurs moyens de paiement sécurisés : cartes bancaires, Orange Money, Wave, virements bancaires et autres méthodes de paiement mobile. Tous les paiements sont sécurisés et traités de manière confidentielle.
+                        </p>
+                    </div>
+                </div>
+                    </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="max-w-7xl mx-auto px-6 py-16">
+            <div class="rounded-2xl p-12 text-center animate-on-scroll" style="background: linear-gradient(135deg, #065b32, #0a7a48); box-shadow: 0 12px 30px rgba(6,91,50,.2);">
+                <h2 class="text-4xl font-bold mb-4 text-white" style="color:#ffffff !important;">Restez connecté avec nous!</h2>
+                <p class="text-lg mb-8 text-white max-w-2xl mx-auto" style="color:#ffffff !important;">
+                    Abonnez-vous à notre newsletter pour les dernières nouvelles, les mises à jour de cours et les offres exclusives.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                    <input type="email" placeholder="Votre adresse email" 
+                        class="flex-1 px-6 py-3 rounded-lg bg-white text-gray-900 border border-white/20 placeholder-gray-500 focus:outline-none focus:border-white">
+                    <button class="px-6 py-3 rounded-lg bg-white font-medium transition-colors hover:bg-gray-50 text-[#065b32]">
+                        S'abonner
+                    </button>
+                </div>
+                </div>
+            </section>
+        </main>
+
+    <!-- Footer -->
+    <footer style="background: #065b32; color: #ffffff;">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <!-- Top Section: 5 Columns -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+                <!-- First Column: À propos -->
+                <div>
+                    <h4 id="apropos" class="text-lg font-bold mb-3 text-white" style="color:#ffffff !important;">À propos</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="{{ route('about') }}" class="text-white text-xs hover:text-gray-200 transition-colors" style="color:#ffffff !important;">BJ Académie</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Second Column: Contact -->
+                <div>
+                    <h4 id="contact" class="text-lg font-bold mb-3 text-white" style="color:#ffffff !important;">Contact</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="mailto:contact@academie.com" class="text-white text-xs hover:text-gray-200 transition-colors">contact@academie.com</a>
+                        </li>
+                        <li>
+                            <a href="tel:+221769719383" class="text-white text-xs hover:text-gray-200 transition-colors" style="color:#ffffff !important;">+221 76 971 93 83</a>
+                        </li>
+                        <li>
+                            <span class="text-white text-xs" style="color:#ffffff !important;">Sicap liberte 6<br>11500 Dakar, Senegal</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Third Column: Liens utiles -->
+                <div>
+                    <h4 class="text-lg font-bold mb-3 text-white" style="color:#ffffff !important;">Liens utiles</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{{ route('legal') }}" class="text-white text-xs hover:text-gray-200 transition-colors">Mentions légales</a></li>
+                        <li><a href="{{ route('privacy') }}" class="text-white text-xs hover:text-gray-200 transition-colors">Politique de confidentialité</a></li>
+                        <li><a href="{{ route('terms') }}" class="text-white text-xs hover:text-gray-200 transition-colors">Conditions d'utilisation</a></li>
+                    </ul>
+                </div>
+
+                <!-- Fourth Column: Horaires d'ouverture -->
+                <div>
+                    <h4 class="text-lg font-bold mb-3 text-white" style="color:#ffffff !important;">Horaires d'ouverture</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <span class="text-white text-xs" style="color:#ffffff !important;">
+                                Lundi : 08h-18h<br>
+                                Mardi : 08h-18h<br>
+                                Mercredi : 08h-18h<br>
+                                Jeudi : 08h-18h<br>
+                                Vendredi : 08h-18h<br>
+                                Samedi : 08h-18h<br>
+                                Dimanche : <span style="color: #dc2626 !important; font-size: 14px; font-weight: 600; background-color: #ffffff; padding: 2px 6px; border-radius: 4px;">Fermé</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Fifth Column: Suivez-nous -->
+                <div>
+                    <h4 class="text-lg font-bold mb-3 text-white" style="color:#ffffff !important;">Suivez-nous</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="#" class="text-white text-xs hover:text-gray-200 transition-colors flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                                Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white text-xs hover:text-gray-200 transition-colors flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162 0 3.403 2.759 6.162 6.162 6.162 3.403 0 6.162-2.759 6.162-6.162 0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4 2.209 0 4 1.791 4 4 0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white text-xs hover:text-gray-200 transition-colors flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                                LinkedIn
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white text-xs hover:text-gray-200 transition-colors flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                                WhatsApp
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+
+            <!-- Newsletter Section -->
+            <div class="border-t border-gray-400/30 pt-6 pb-6 mb-6">
+                <div class="text-center">
+                    <p class="text-white text-sm mb-4" style="color:#ffffff !important;">Abonnez-vous à notre newsletter !</p>
+                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                        <input type="email" placeholder="Entrez votre email" 
+                            class="flex-1 px-4 py-2 rounded-lg bg-white text-gray-900 border border-white/20 placeholder-gray-500 focus:outline-none focus:border-white text-sm">
+                        <button class="px-6 py-2 rounded-lg bg-white font-medium transition-colors hover:bg-gray-50 text-[#065b32] text-sm">
+                            S'inscrire
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Separator Line -->
+            <div class="border-t border-gray-400/30 pt-4"></div>
+
+            <!-- Bottom Section: Copyright -->
+            <div class="text-center">
+                <p class="text-white text-xs" style="color:#ffffff !important;">© 2025 Bj Academie. Tous droits réservés.</p>
+            </div>
+        </div>
+        </footer>
+
+    <script>
+        (function() {
+            // Basic Intersection Observer for minimal fade/translate
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+            document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+
+            // Header shadow on scroll
+            const header = document.querySelector('header');
+            const onScroll = () => {
+                if (!header) return;
+                if (window.pageYOffset > 80) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // Fonction pour scroller vers une section du footer avec animation de rebond
+        function scrollToFooterSection(sectionId) {
+            const targetElement = document.getElementById(sectionId);
+            if (!targetElement) return;
+            
+            // Scroller vers le footer avec un offset pour tenir compte du header fixe
+            const footer = document.querySelector('footer');
+            if (footer) {
+                const footerTop = footer.offsetTop;
+                const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+                const targetOffset = footerTop - headerHeight + 20; // 20px de marge supplémentaire
+                
+                window.scrollTo({
+                    top: targetOffset,
+                    behavior: 'smooth'
+                });
+                
+                // Attendre que le scroll soit terminé avant d'animer
+                setTimeout(() => {
+                    // Retirer l'animation précédente si elle existe
+                    targetElement.classList.remove('bounce-highlight');
+                    
+                    // Forcer un reflow pour réinitialiser l'animation
+                    void targetElement.offsetWidth;
+                    
+                    // Ajouter l'animation de rebond
+                    targetElement.classList.add('bounce-highlight');
+                    
+                    // Retirer l'animation après 1.5 secondes
+                    setTimeout(() => {
+                        targetElement.classList.remove('bounce-highlight');
+                    }, 1500);
+                }, 500); // Attendre que le scroll soit terminé
+            }
+        }
+
+        // Fonction pour basculer l'affichage du mot de passe
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                // Icône œil barré (cacher)
+                icon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                `;
+            } else {
+                input.type = 'password';
+                // Icône œil normal (voir)
+                icon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
+            }
+        }
+
+        // Validation du formulaire d'inscription uniquement
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    const termsCheckbox = document.getElementById('terms');
+                    if (!termsCheckbox || !termsCheckbox.checked) {
+                        e.preventDefault();
+                        alert('Vous devez accepter les conditions d\'utilisation et la politique de confidentialité pour créer un compte.');
+                        termsCheckbox.focus();
+                        termsCheckbox.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        return false;
+                    }
+                });
+            }
+        });
+
+        // Fonction pour vérifier les champs du formulaire de connexion et activer/désactiver le bouton
+        function checkLoginFields() {
+            const emailField = document.getElementById('login-email');
+            const passwordField = document.getElementById('login-password');
+            const submitBtn = document.getElementById('login-submit-btn');
+            
+            if (emailField && passwordField && submitBtn) {
+                const emailValue = emailField.value.trim();
+                const passwordValue = passwordField.value.trim();
+                const allFieldsFilled = emailValue.length > 0 && passwordValue.length > 0;
+                
+                if (allFieldsFilled) {
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                    submitBtn.style.cursor = 'pointer';
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.6';
+                    submitBtn.style.cursor = 'not-allowed';
+                }
+            }
+        }
+        
+        // Form toggle functions
+        function showLoginForm() {
+            const loginContainer = document.getElementById('form-login-container');
+            const registerContainer = document.getElementById('form-register-container');
+            const btnLogin = document.getElementById('btn-login');
+            const btnRegister = document.getElementById('btn-register');
+
+            // Hide register form, show login form
+            registerContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+            
+            // Vérifier les champs et activer/désactiver le bouton de soumission
+            setTimeout(() => {
+                checkLoginFields();
+            }, 100);
+            
+            // Scroll to form if there are errors
+            if (loginContainer && loginContainer.querySelector('.text-red-500')) {
+                loginContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Lock login button, unlock register button
+            if (btnLogin && btnRegister) {
+                btnLogin.disabled = true;
+                btnLogin.style.opacity = '0.6';
+                btnLogin.style.cursor = 'not-allowed';
+                btnRegister.disabled = false;
+                btnRegister.style.opacity = '1';
+                btnRegister.style.cursor = 'pointer';
+            }
+        }
+        
+        // S'assurer que le formulaire de connexion est visible s'il y a des erreurs
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[DEBUG] DOMContentLoaded - Initialisation des formulaires');
+            
+            const loginContainer = document.getElementById('form-login-container');
+            const registerContainer = document.getElementById('form-register-container');
+            const btnLogin = document.getElementById('btn-login');
+            const btnRegister = document.getElementById('btn-register');
+            
+            console.log('[DEBUG] Éléments trouvés:', {
+                loginContainer: !!loginContainer,
+                registerContainer: !!registerContainer,
+                btnLogin: !!btnLogin,
+                btnRegister: !!btnRegister
+            });
+            
+            // Vérifier s'il y a des erreurs dans le formulaire de connexion
+            const loginForm = document.getElementById('login-form');
+            console.log('[DEBUG] Formulaire de connexion trouvé:', !!loginForm);
+            
+            if (loginForm) {
+                console.log('[DEBUG] Attributs du formulaire de connexion:', {
+                    autocomplete: loginForm.getAttribute('autocomplete'),
+                    'data-1p-ignore': loginForm.getAttribute('data-1p-ignore'),
+                    'data-lpignore': loginForm.getAttribute('data-lpignore'),
+                    'data-safari-ignore': loginForm.getAttribute('data-safari-ignore'),
+                    novalidate: loginForm.hasAttribute('novalidate')
+                });
+                
+                // Vérifier les champs
+                const loginEmail = document.getElementById('login-email');
+                const loginPassword = document.getElementById('login-password');
+                const loginSubmitBtn = document.getElementById('login-submit-btn');
+                
+                // Vérifier l'état initial des champs et activer/désactiver le bouton
+                if (loginEmail && loginPassword && loginSubmitBtn) {
+                    // Vérifier immédiatement l'état des champs au chargement
+                    checkLoginFields();
+                    
+                    // Ajouter les événements pour vérifier en temps réel
+                    loginEmail.addEventListener('input', checkLoginFields);
+                    loginEmail.addEventListener('change', checkLoginFields);
+                    loginPassword.addEventListener('input', checkLoginFields);
+                    loginPassword.addEventListener('change', checkLoginFields);
+                    
+                    console.log('[DEBUG] Champ email:', {
+                        type: loginEmail.type,
+                        value: loginEmail.value ? '***' : 'vide',
+                        autocomplete: loginEmail.getAttribute('autocomplete'),
+                        'data-1p-ignore': loginEmail.getAttribute('data-1p-ignore'),
+                        'data-lpignore': loginEmail.getAttribute('data-lpignore')
+                    });
+                    
+                    console.log('[DEBUG] Champ password:', {
+                        type: loginPassword.type,
+                        value: loginPassword.value ? '***' : 'vide',
+                        autocomplete: loginPassword.getAttribute('autocomplete'),
+                        'data-1p-ignore': loginPassword.getAttribute('data-1p-ignore'),
+                        'data-lpignore': loginPassword.getAttribute('data-lpignore')
+                    });
+                }
+                
+                // Ajouter un listener sur la soumission
+                loginForm.addEventListener('submit', function(e) {
+                    console.log('[DEBUG] Soumission du formulaire de connexion');
+                    console.log('[DEBUG] Email saisi:', loginEmail?.value);
+                    console.log('[DEBUG] Password saisi:', loginPassword?.value ? '***' : 'vide');
+                });
+            }
+            
+            // Vérifier s'il y a des erreurs - plusieurs méthodes
+            const errorMessages = loginContainer && loginContainer.querySelectorAll('.text-red-500, .text-red-600, .bg-red-50');
+            const hasErrorClass = loginContainer && loginContainer.classList.contains('has-errors');
+            const hasErrorsInForm = loginContainer && (
+                loginContainer.querySelector('.text-red-500') || 
+                loginContainer.querySelector('.text-red-600') ||
+                loginContainer.querySelector('.bg-red-50') ||
+                loginContainer.querySelector('[class*="border-red"]') ||
+                (loginForm && loginForm.querySelector('.text-red-500'))
+            );
+            
+            console.log('[DEBUG] Erreurs détectées:', {
+                errorMessagesCount: errorMessages ? errorMessages.length : 0,
+                hasErrorClass: hasErrorClass,
+                hasErrorsInForm: !!hasErrorsInForm,
+                loginContainerVisible: loginContainer && !loginContainer.classList.contains('hidden'),
+                loginContainerHTML: loginContainer ? loginContainer.innerHTML.substring(0, 200) : 'N/A'
+            });
+            
+            // Si le formulaire de connexion a des erreurs OU si le container n'est pas caché (ce qui signifie qu'il y a des erreurs), l'afficher
+            if (hasErrorsInForm || !loginContainer.classList.contains('hidden')) {
+                console.log('[DEBUG] Affichage du formulaire de connexion avec erreurs');
+                loginContainer.classList.remove('hidden');
+                if (registerContainer) {
+                    registerContainer.classList.add('hidden');
+                }
+                if (btnLogin && btnRegister) {
+                    btnLogin.disabled = true;
+                    btnLogin.style.opacity = '0.6';
+                    btnLogin.style.cursor = 'not-allowed';
+                    btnRegister.disabled = false;
+                    btnRegister.style.opacity = '1';
+                    btnRegister.style.cursor = 'pointer';
+                }
+                // Scroll vers le formulaire
+                setTimeout(() => {
+                    loginContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+            
+            // Vérifier le formulaire d'inscription aussi
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                console.log('[DEBUG] Formulaire d\'inscription trouvé:', !!registerForm);
+                const registerPassword = registerForm.querySelector('input[name="password"]');
+                if (registerPassword) {
+                    console.log('[DEBUG] Champ password inscription:', {
+                        type: registerPassword.type,
+                        autocomplete: registerPassword.getAttribute('autocomplete'),
+                        'data-1p-ignore': registerPassword.getAttribute('data-1p-ignore'),
+                        'data-lpignore': registerPassword.getAttribute('data-lpignore')
+                    });
+                }
+            }
+            
+            console.log('[DEBUG] Initialisation terminée');
+        });
+
+        function showRegisterForm() {
+            const loginContainer = document.getElementById('form-login-container');
+            const registerContainer = document.getElementById('form-register-container');
+            const btnLogin = document.getElementById('btn-login');
+            const btnRegister = document.getElementById('btn-register');
+
+            // Hide login form, show register form
+            loginContainer.classList.add('hidden');
+            registerContainer.classList.remove('hidden');
+
+            // Lock register button, unlock login button
+            btnRegister.disabled = true;
+            btnRegister.style.opacity = '0.6';
+            btnRegister.style.cursor = 'not-allowed';
+            btnLogin.disabled = false;
+            btnLogin.style.opacity = '1';
+            btnLogin.style.cursor = 'pointer';
+        }
+        
+        // Modal functions
+        function openLegalModal() {
+            openModal('legalModal');
+        }
+        
+        function openPrivacyModal() {
+            openModal('privacyModal');
+        }
+        
+        function openTermsModal() {
+            openModal('termsModal');
+        }
+        
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeLegalModal() {
+            closeModal('legalModal');
+        }
+        
+        function closePrivacyModal() {
+            closeModal('privacyModal');
+        }
+        
+        function closeTermsModal() {
+            closeModal('termsModal');
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Close modal on overlay click and Escape key
+        document.addEventListener('DOMContentLoaded', function() {
+            const modals = ['legalModal', 'privacyModal', 'termsModal'];
+            
+            modals.forEach(function(modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === modal) {
+                            closeModal(modalId);
+                        }
+                    });
+                }
+            });
+            
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    modals.forEach(function(modalId) {
+                        const modal = document.getElementById(modalId);
+                        if (modal && modal.classList.contains('active')) {
+                            closeModal(modalId);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    
+    <!-- Modal Mentions Légales -->
+    <div id="legalModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>🧾 Mentions Légales</h2>
+                <button class="modal-close" onclick="closeLegalModal()" aria-label="Fermer">×</button>
+            </div>
+            <div class="modal-content">
+                <h3>1. Informations légales</h3>
+                <p>
+                    Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est porté à la connaissance des utilisateurs du site BJ Académie les informations suivantes relatives à l'identité des responsables de sa publication, de son hébergement et de sa gestion.
+                </p>
+                
+                <h3>2. Éditeur du site</h3>
+                <p>
+                    <strong>Nom de l'organisme :</strong> BJ Académie<br>
+                    <strong>Nature de l'activité :</strong> École de formation à distance et centre de perfectionnement professionnel<br>
+                    <strong>Adresse :</strong> Sicap Liberté 6, 11500 Dakar, Sénégal<br>
+                    <strong>Téléphone :</strong> +221 76 971 93 83<br>
+                    <strong>Adresse e-mail :</strong> contact@academie.com<br>
+                    <strong>Site web :</strong> www.academie.com
+                </p>
+                <p>
+                    L'éditeur du site est responsable de la mise à disposition du contenu et de la gestion éditoriale.
+                </p>
+                
+                <h3>3. Directeur de publication</h3>
+                <p>
+                    Le Directeur de la publication est le représentant légal de BJ Académie.
+                </p>
+                <p>
+                    Il veille à la conformité des contenus diffusés sur le site et à leur respect des lois et réglementations en vigueur.
+                </p>
+                
+                <h3>4. Hébergement</h3>
+                <p>
+                    Le site est hébergé par un prestataire technique professionnel garantissant la sécurité et la continuité du service.
+                </p>
+                <p>
+                    Les coordonnées complètes de l'hébergeur peuvent être communiquées sur demande par e-mail à : contact@academie.com.
+                </p>
+                
+                <h3>5. Propriété intellectuelle</h3>
+                <p>
+                    L'ensemble du contenu présent sur le site BJ Académie (textes, images, logos, vidéos, éléments graphiques, structure, code source, etc.) est protégé par les lois nationales et internationales relatives au droit d'auteur et à la propriété intellectuelle.
+                </p>
+                <p>
+                    Toute reproduction, représentation, modification, publication, transmission, ou adaptation, partielle ou totale, de ce contenu, quel que soit le moyen ou le procédé utilisé, est strictement interdite, sauf autorisation écrite préalable de BJ Académie.
+                </p>
+                
+                <h3>6. Protection des données personnelles</h3>
+                <p>
+                    BJ Académie attache une grande importance à la protection des données personnelles de ses utilisateurs.
+                </p>
+                <p>
+                    Les informations collectées sur le site font l'objet d'un traitement destiné uniquement à l'amélioration du service, à la gestion des inscriptions et au suivi pédagogique des apprenants.
+                </p>
+                <p>
+                    Conformément à la loi « Informatique et Libertés » et au Règlement Général sur la Protection des Données (RGPD), chaque utilisateur dispose des droits suivants :
+                </p>
+                <ul>
+                    <li>Droit d'accès à ses données personnelles</li>
+                    <li>Droit de rectification ou de suppression</li>
+                    <li>Droit d'opposition et de limitation du traitement</li>
+                    <li>Droit à la portabilité de ses données</li>
+                </ul>
+                <p>
+                    Pour exercer ces droits, veuillez adresser une demande par e-mail à : contact@academie.com
+                </p>
+                
+                <h3>7. Utilisation des cookies</h3>
+                <p>
+                    Le site BJ Académie utilise des cookies afin d'améliorer l'expérience de navigation, d'analyser la fréquentation et d'optimiser les performances du site.
+                </p>
+                <p>
+                    Un cookie est un petit fichier texte enregistré sur votre appareil lors de votre visite. Vous pouvez à tout moment configurer votre navigateur pour refuser les cookies. Cependant, certaines fonctionnalités du site peuvent ne pas fonctionner correctement sans leur utilisation.
+                </p>
+                
+                <h3>8. Limitation de responsabilité</h3>
+                <p>
+                    BJ Académie s'efforce de garantir la fiabilité, la disponibilité et la mise à jour du contenu de son site.
+                </p>
+                <p>
+                    Toutefois, elle ne saurait être tenue responsable :
+                </p>
+                <ul>
+                    <li>D'éventuelles erreurs, omissions ou inexactitudes ;</li>
+                    <li>Des dommages directs ou indirects pouvant résulter de l'accès au site ou de son utilisation ;</li>
+                    <li>De problèmes techniques liés à l'utilisation d'un matériel inadapté ou obsolète.</li>
+                </ul>
+                
+                <h3>9. Droit applicable et juridiction compétente</h3>
+                <p>
+                    Les présentes mentions légales sont régies par le droit sénégalais.
+                </p>
+                <p>
+                    En cas de litige et à défaut de règlement amiable, le différend sera porté devant les tribunaux compétents de Dakar (Sénégal), conformément à la législation en vigueur.
+                </p>
+                
+                <h3>10. Contact</h3>
+                <p>
+                    Pour toute question relative aux présentes mentions légales ou au fonctionnement du site, vous pouvez nous contacter :
+                </p>
+                <ul>
+                    <li>📍 <strong>Adresse :</strong> Sicap Liberté 6, 11500 Dakar, Sénégal</li>
+                    <li>📞 <strong>Téléphone :</strong> +221 76 971 93 83</li>
+                    <li>✉️ <strong>E-mail :</strong> contact@academie.com</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <p class="modal-footer-date">✅ Dernière mise à jour : 31 Novembre 2025</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Politique de Confidentialité -->
+    <div id="privacyModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>🔒 Politique de Confidentialité</h2>
+                <button class="modal-close" onclick="closePrivacyModal()" aria-label="Fermer">×</button>
+            </div>
+            <div class="modal-content">
+                <h3>1. Introduction</h3>
+                <p>
+                    BJ Académie accorde une importance primordiale à la confidentialité et à la sécurité des informations personnelles de ses apprenants, partenaires et visiteurs.
+                </p>
+                <p>
+                    La présente Politique de Confidentialité a pour objectif d'expliquer de manière transparente comment nous collectons, utilisons, stockons et protégeons vos données personnelles, conformément au Règlement Général sur la Protection des Données (RGPD) et à la législation sénégalaise sur la protection des données.
+                </p>
+                
+                <h3>2. Responsable du traitement</h3>
+                <p>
+                    Le responsable du traitement des données personnelles est :
+                </p>
+                <p>
+                    <strong>BJ Académie</strong><br>
+                    📍 Adresse : Sicap Liberté 6, 11500 Dakar, Sénégal<br>
+                    📞 Téléphone : +221 76 971 93 83<br>
+                    ✉️ E-mail : contact@academie.com
+                </p>
+                <p>
+                    BJ Académie détermine les finalités et les moyens du traitement des données collectées dans le cadre de son activité de formation à distance.
+                </p>
+                
+                <h3>3. Données collectées</h3>
+                <p>
+                    Dans le cadre de nos activités, nous pouvons être amenés à collecter les catégories de données suivantes :
+                </p>
+                <ul>
+                    <li>Données d'identification : nom, prénom, date de naissance</li>
+                    <li>Données de contact : adresse e-mail, numéro de téléphone, adresse postale</li>
+                    <li>Données de connexion : adresse IP, cookies, données de navigation</li>
+                    <li>Données pédagogiques : parcours de formation, résultats, progression, évaluations</li>
+                    <li>Données de paiement : informations nécessaires au traitement des transactions et à la facturation</li>
+                </ul>
+                <p>
+                    Ces données sont collectées directement auprès de vous lors de l'inscription, de l'utilisation du site ou de nos services.
+                </p>
+                
+                <h3>4. Finalités du traitement</h3>
+                <p>
+                    Les données collectées sont utilisées uniquement pour les finalités suivantes :
+                </p>
+                <ul>
+                    <li>Gestion des inscriptions et des comptes utilisateurs</li>
+                    <li>Fourniture des services de formation et suivi pédagogique</li>
+                    <li>Gestion des paiements, facturation et assistance administrative</li>
+                    <li>Communication avec les apprenants (notifications, support, actualités)</li>
+                    <li>Analyse statistique pour l'amélioration continue de nos services</li>
+                    <li>Respect de nos obligations légales et réglementaires</li>
+                </ul>
+                <p>
+                    Aucune donnée n'est utilisée à des fins publicitaires sans votre consentement explicite.
+                </p>
+                
+                <h3>5. Base légale du traitement</h3>
+                <p>
+                    Les traitements de données réalisés par BJ Académie reposent sur les bases légales suivantes :
+                </p>
+                <ul>
+                    <li>Exécution d'un contrat : pour la gestion des formations et des comptes utilisateurs</li>
+                    <li>Consentement : pour l'envoi d'e-mails d'information, newsletters ou l'usage de cookies non essentiels</li>
+                    <li>Intérêt légitime : pour l'amélioration continue de nos services</li>
+                    <li>Obligation légale : pour répondre aux exigences réglementaires et fiscales</li>
+                </ul>
+                
+                <h3>6. Durée de conservation</h3>
+                <p>
+                    Vos données personnelles sont conservées uniquement pendant la durée nécessaire à la réalisation des finalités pour lesquelles elles ont été collectées :
+                </p>
+                <ul>
+                    <li>Données liées à la formation : pendant toute la durée du contrat, puis archivées pour la durée légale de conservation.</li>
+                    <li>Données de contact : jusqu'à retrait du consentement ou désinscription.</li>
+                    <li>Données de paiement : selon les obligations fiscales et comptables applicables.</li>
+                </ul>
+                <p>
+                    Passé ces délais, les données sont supprimées ou anonymisées.
+                </p>
+                
+                <h3>7. Vos droits</h3>
+                <p>
+                    Conformément au RGPD et à la législation sénégalaise, vous disposez des droits suivants :
+                </p>
+                <ul>
+                    <li>Droit d'accès : obtenir une copie de vos données personnelles</li>
+                    <li>Droit de rectification : corriger les données inexactes ou incomplètes</li>
+                    <li>Droit à l'effacement : demander la suppression de vos données</li>
+                    <li>Droit à la limitation : restreindre temporairement l'utilisation de vos données</li>
+                    <li>Droit à la portabilité : recevoir vos données dans un format structuré et lisible</li>
+                    <li>Droit d'opposition : refuser le traitement de vos données dans certains cas</li>
+                    <li>Droit de retrait du consentement : retirer votre accord à tout moment</li>
+                </ul>
+                <p>
+                    Pour exercer vos droits, adressez votre demande à :<br>
+                    📧 contact@academie.com
+                </p>
+                
+                <h3>8. Sécurité des données</h3>
+                <p>
+                    BJ Académie met en œuvre des mesures techniques et organisationnelles strictes afin de protéger vos données personnelles contre toute perte, altération ou accès non autorisé, notamment :
+                </p>
+                <ul>
+                    <li>Chiffrement des données sensibles</li>
+                    <li>Contrôle d'accès sécurisé et authentification forte</li>
+                    <li>Sauvegardes régulières et surveillance du système</li>
+                    <li>Sensibilisation et formation du personnel à la protection des données</li>
+                </ul>
+                
+                <h3>9. Partage des données</h3>
+                <p>
+                    Nous ne vendons, ne louons ni ne cédons vos données personnelles à des tiers à des fins commerciales.
+                </p>
+                <p>
+                    Cependant, vos données peuvent être partagées, de manière limitée et sécurisée, avec :
+                </p>
+                <ul>
+                    <li>Nos prestataires techniques (hébergeurs, plateformes de paiement, outils pédagogiques), soumis à des obligations strictes de confidentialité</li>
+                    <li>Les autorités administratives ou judiciaires, si la loi l'exige</li>
+                </ul>
+                
+                <h3>10. Cookies</h3>
+                <p>
+                    Le site BJ Académie utilise des cookies afin de personnaliser votre expérience, analyser la fréquentation du site et améliorer son fonctionnement.
+                </p>
+                <p>
+                    Vous pouvez configurer votre navigateur pour accepter, refuser ou supprimer les cookies à tout moment. Cependant, certaines fonctionnalités du site peuvent être limitées en cas de refus des cookies.
+                </p>
+                
+                <h3>11. Modification de la politique</h3>
+                <p>
+                    Cette politique de confidentialité peut être mise à jour périodiquement pour refléter les évolutions légales, techniques ou organisationnelles.
+                </p>
+                <p>
+                    La date de la dernière mise à jour figure en bas de cette page.
+                </p>
+                <p>
+                    Nous vous invitons à la consulter régulièrement afin de rester informé des éventuelles modifications.
+                </p>
+                
+                <h3>12. Contact</h3>
+                <p>
+                    Pour toute question concernant cette politique de confidentialité ou l'exercice de vos droits, vous pouvez nous contacter à tout moment :
+                </p>
+                <ul>
+                    <li>📍 <strong>Adresse :</strong> Sicap Liberté 6, 11500 Dakar, Sénégal</li>
+                    <li>📞 <strong>Téléphone :</strong> +221 76 971 93 83</li>
+                    <li>✉️ <strong>E-mail :</strong> contact@academie.com</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <p class="modal-footer-date">✅ Dernière mise à jour : 31 Novembre 2025</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Conditions d'utilisation -->
+    <div id="termsModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>📋 Conditions Générales d'Utilisation (CGU)</h2>
+                <button class="modal-close" onclick="closeTermsModal()" aria-label="Fermer">×</button>
+            </div>
+            <div class="modal-content">
+                <h3>1. Objet</h3>
+                <p>
+                    Les présentes Conditions Générales d'Utilisation (CGU) ont pour objet de définir les modalités d'accès et d'utilisation du site web de BJ Académie et de ses services de formation en ligne.
+                </p>
+                <p>
+                    En accédant au site ou en utilisant nos services, l'utilisateur reconnaît avoir lu, compris et accepté sans réserve les présentes conditions.
+                </p>
+                
+                <h3>2. Acceptation des conditions</h3>
+                <p>
+                    L'utilisation du site et des services de BJ Académie implique l'acceptation pleine et entière des présentes CGU.
+                </p>
+                <p>
+                    Si vous n'acceptez pas tout ou partie de ces conditions, nous vous invitons à ne pas utiliser nos services.
+                </p>
+                
+                <h3>3. Services proposés</h3>
+                <p>
+                    BJ Académie est une école de formation à distance spécialisée dans le développement personnel, professionnel et technologique.
+                </p>
+                <p>
+                    Nos services incluent notamment :
+                </p>
+                <ul>
+                    <li>L'accès à des formations en ligne via notre plateforme numérique ;</li>
+                    <li>Des supports pédagogiques (cours, vidéos, PDF, quiz, exercices interactifs) ;</li>
+                    <li>Des tutoriels et sessions d'accompagnement encadrés par des formateurs qualifiés ;</li>
+                    <li>Des évaluations en ligne permettant de mesurer la progression de l'apprenant ;</li>
+                    <li>L'obtention de certificats de formation à la fin de certains parcours, sous réserve de validation des modules requis.</li>
+                </ul>
+                
+                <h3>4. Inscription et compte utilisateur</h3>
+                <p>
+                    Pour accéder à certaines fonctionnalités du site, l'utilisateur doit créer un compte personnel.
+                </p>
+                <p>
+                    Lors de l'inscription, vous vous engagez à :
+                </p>
+                <ul>
+                    <li>Fournir des informations exactes, complètes et à jour ;</li>
+                    <li>Maintenir la confidentialité de vos identifiants de connexion ;</li>
+                    <li>Ne pas partager votre compte avec un tiers ;</li>
+                    <li>Assumer l'entière responsabilité de toute activité effectuée depuis votre compte.</li>
+                </ul>
+                <p>
+                    En cas de suspicion d'utilisation non autorisée, il est de votre responsabilité d'en informer immédiatement BJ Académie à : contact@academie.com.
+                </p>
+                
+                <h3>5. Utilisation du site</h3>
+                <p>
+                    L'utilisateur s'engage à utiliser le site et les services de manière responsable, respectueuse et légale.
+                </p>
+                <p>
+                    Il est strictement interdit de :
+                </p>
+                <ul>
+                    <li>Reproduire, copier, distribuer ou modifier tout contenu sans autorisation écrite ;</li>
+                    <li>Perturber le fonctionnement du site (tentative de piratage, injection de code, etc.) ;</li>
+                    <li>Tenter d'accéder de manière non autorisée à des espaces privés ou à des données d'autres utilisateurs ;</li>
+                    <li>Utiliser le site à des fins illégales, frauduleuses ou contraires à la morale ;</li>
+                    <li>Partager ses identifiants de connexion avec des tiers.</li>
+                </ul>
+                <p>
+                    Tout manquement à ces règles peut entraîner la suspension ou la suppression immédiate du compte utilisateur, sans préavis.
+                </p>
+                
+                <h3>6. Propriété intellectuelle</h3>
+                <p>
+                    L'ensemble des éléments présents sur le site BJ Académie (textes, vidéos, images, logos, design, code source, etc.) constitue une œuvre protégée par les lois relatives à la propriété intellectuelle.
+                </p>
+                <p>
+                    Toute reproduction, représentation, modification, publication ou exploitation non autorisée, totale ou partielle, est strictement interdite et pourra faire l'objet de poursuites judiciaires.
+                </p>
+                
+                <h3>7. Tarifs et paiement</h3>
+                <p>
+                    Les tarifs des formations proposées par BJ Académie sont indiqués en francs CFA ou en euros, selon le service choisi.
+                </p>
+                <p>
+                    Le règlement s'effectue en ligne via des moyens de paiement sécurisés (carte bancaire, Wave, Orange Money, etc.).
+                </p>
+                <p>
+                    BJ Académie se réserve le droit de modifier ses tarifs à tout moment.
+                </p>
+                <p>
+                    Toutefois, les formations déjà achetées demeurent au prix convenu au moment de l'inscription.
+                </p>
+                
+                <h3>8. Droit de rétractation</h3>
+                <p>
+                    Conformément à la législation en vigueur, vous disposez d'un délai de 14 jours à compter de la date d'achat pour exercer votre droit de rétractation, à condition que la formation n'ait pas encore commencé.
+                </p>
+                <p>
+                    Toute demande de rétractation doit être envoyée à :<br>
+                    📧 contact@academie.com
+                </p>
+                <p>
+                    Passé ce délai, ou en cas de formation déjà commencée, aucun remboursement ne pourra être effectué.
+                </p>
+                
+                <h3>9. Disponibilité des services</h3>
+                <p>
+                    BJ Académie met tout en œuvre pour assurer un accès continu et fiable à ses services.
+                </p>
+                <p>
+                    Cependant, une interruption temporaire peut survenir pour des raisons de :
+                </p>
+                <ul>
+                    <li>Maintenance technique,</li>
+                    <li>Mises à jour,</li>
+                    <li>Pannes indépendantes de notre volonté (hébergement, réseau, etc.).</li>
+                </ul>
+                <p>
+                    En cas d'interruption, BJ Académie s'engage à rétablir le service dans les plus brefs délais.
+                </p>
+                
+                <h3>10. Limitation de responsabilité</h3>
+                <p>
+                    BJ Académie ne saurait être tenue responsable :
+                </p>
+                <ul>
+                    <li>Des dommages directs ou indirects résultant de l'utilisation ou de l'impossibilité d'utiliser le site ;</li>
+                    <li>Des pertes de données ou dysfonctionnements liés à des problèmes techniques ;</li>
+                    <li>D'une utilisation non conforme des contenus ou services fournis ;</li>
+                    <li>Des erreurs ou omissions dans les contenus mis en ligne.</li>
+                </ul>
+                <p>
+                    L'utilisateur reste seul responsable de l'usage qu'il fait des informations et ressources disponibles sur la plateforme.
+                </p>
+                
+                <h3>11. Résiliation</h3>
+                <p>
+                    BJ Académie se réserve le droit de suspendre ou supprimer un compte utilisateur, sans préavis, en cas de :
+                </p>
+                <ul>
+                    <li>Violation des présentes conditions ;</li>
+                    <li>Tentative de fraude, piratage ou usage abusif ;</li>
+                    <li>Comportement portant atteinte à l'image ou à la sécurité du site.</li>
+                </ul>
+                <p>
+                    Aucun remboursement ne sera accordé en cas de résiliation pour faute.
+                </p>
+                
+                <h3>12. Modification des conditions</h3>
+                <p>
+                    BJ Académie peut à tout moment modifier ou mettre à jour les présentes CGU afin de les adapter aux évolutions du site, des services ou de la législation.
+                </p>
+                <p>
+                    Les modifications prennent effet dès leur publication sur cette page.
+                </p>
+                <p>
+                    Il appartient à l'utilisateur de consulter régulièrement les CGU pour se tenir informé des éventuelles mises à jour.
+                </p>
+                
+                <h3>13. Droit applicable et juridiction compétente</h3>
+                <p>
+                    Les présentes conditions sont régies par le droit sénégalais.
+                </p>
+                <p>
+                    En cas de litige, et à défaut de solution amiable, les tribunaux de Dakar (Sénégal) seront seuls compétents.
+                </p>
+                
+                <h3>14. Contact</h3>
+                <p>
+                    Pour toute question relative aux présentes conditions d'utilisation, vous pouvez nous contacter à :
+                </p>
+                <ul>
+                    <li>📍 <strong>Adresse :</strong> Sicap Liberté 6, 11500 Dakar, Sénégal</li>
+                    <li>📞 <strong>Téléphone :</strong> +221 76 971 93 83</li>
+                    <li>✉️ <strong>E-mail :</strong> contact@academie.com</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <p class="modal-footer-date">✅ Dernière mise à jour : 31 Novembre 2025</p>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>

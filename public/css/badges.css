@@ -1,0 +1,41 @@
+/* Styles pour les badges uniformes */
+.badge-md {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    line-height: 1;
+}
+.badge-circle {
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    min-width: 1.5rem;
+}
+.badge-floating {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 10;
+}
+.badge-danger {
+    background-color: #ea4335;
+    color: white;
+}
+.badge.border-white {
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+

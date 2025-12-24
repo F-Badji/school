@@ -1,0 +1,48 @@
+===========================================
+CONFIGURATION GMAIL POUR L'ENVOI D'EMAILS
+===========================================
+
+ÉTAPE 1 : Créer un mot de passe d'application Gmail
+----------------------------------------------------
+1. Allez sur https://myaccount.google.com/
+2. Cliquez sur "Sécurité" dans le menu de gauche
+3. Activez la "Validation en deux étapes" si ce n'est pas déjà fait
+4. Allez dans "Mots de passe des applications" (ou "App passwords")
+5. Sélectionnez "Autre (nom personnalisé)" et entrez "BJ Académie Laravel"
+6. Cliquez sur "Générer"
+7. COPIEZ LE MOT DE PASSE GÉNÉRÉ (16 caractères) - vous ne pourrez plus le voir après
+
+ÉTAPE 2 : Modifier le fichier .env
+-----------------------------------
+Ouvrez le fichier .env à la racine du projet et modifiez/ajoutez ces lignes :
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=votre-email@gmail.com
+MAIL_PASSWORD=votre-mot-de-passe-application-16-caracteres
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=votre-email@gmail.com
+MAIL_FROM_NAME="BJ Académie"
+
+IMPORTANT :
+- Remplacez "votre-email@gmail.com" par votre adresse Gmail
+- Remplacez "votre-mot-de-passe-application-16-caracteres" par le mot de passe d'application généré
+- Le mot de passe d'application est différent de votre mot de passe Gmail normal
+
+ÉTAPE 3 : Vider le cache
+-------------------------
+Après avoir modifié le .env, exécutez ces commandes :
+
+php artisan config:clear
+php artisan cache:clear
+
+ÉTAPE 4 : Tester
+----------------
+Testez le formulaire de contact sur http://localhost:8000
+Les emails seront envoyés à : contact.bjacademie@gmail.com
+
+
+
+
+
