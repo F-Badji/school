@@ -1249,7 +1249,6 @@
                                                 </svg>
                                             </div>
                                             <h3 class="text-lg font-semibold text-gray-900 mb-2">Bienvenue dans {{ $activeGroup->name }}</h3>
-                                            <p class="text-gray-500">Cette fonctionnalité de chat de groupe sera bientôt disponible.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -2996,7 +2995,6 @@
                                 </svg>
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 mb-2">Bienvenue dans ${window.escapeHtml(groupName)}</h3>
-                            <p class="text-gray-500">Cette fonctionnalité de chat de groupe sera bientôt disponible.</p>
                         </div>
                     </div>
                 `;
